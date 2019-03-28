@@ -11,8 +11,8 @@
 # # Set Shell variable
 # # WORDCHARS=$WORDCHARS:s,/,,
 # HISTSIZE=2000 HISTFILE=~/.zhistory SAVEHIST=180
-# PROMPT='%m{%n}%% '
-# RPROMPT='[%~]'
+PROMPT='%m{%n}%% '
+RPROMPT='[%~]'
 # 
 # # Set shell options
 # # 有効にしてあるのは副作用の少ないもの
