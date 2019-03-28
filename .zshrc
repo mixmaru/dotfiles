@@ -6,53 +6,71 @@
 #
 #####################################################################
 
-###
-# Set Shell variable
-# WORDCHARS=$WORDCHARS:s,/,,
-HISTSIZE=2000 HISTFILE=~/.zhistory SAVEHIST=180
-PROMPT='%m{%n}%% '
-RPROMPT='[%~]'
-
-# Set shell options
-# 有効にしてあるのは副作用の少ないもの
-setopt auto_cd auto_remove_slash auto_name_dirs 
-setopt extended_history hist_ignore_dups hist_ignore_space prompt_subst
-setopt extended_glob list_types no_beep always_last_prompt
-setopt cdable_vars sh_word_split auto_param_keys pushd_ignore_dups
-# 便利だが副作用の強いものはコメントアウト
-#setopt auto_menu  correct rm_star_silent sun_keyboard_hack
-#setopt share_history inc_append_history
-
-# Alias and functions
-alias copy='cp -ip' del='rm -i' move='mv -i'
-alias fullreset='echo "\ec\ec"'
-h () 		{history $* | less}
-alias ja='LANG=ja_JP.eucJP XMODIFIERS=@im=kinput2'
+# zshのデフォルトrcが理解できていないので一旦コメントアウトして様子をみる
+# ###
+# # Set Shell variable
+# # WORDCHARS=$WORDCHARS:s,/,,
+# HISTSIZE=2000 HISTFILE=~/.zhistory SAVEHIST=180
+# PROMPT='%m{%n}%% '
+# RPROMPT='[%~]'
+# 
+# # Set shell options
+# # 有効にしてあるのは副作用の少ないもの
+# setopt auto_cd auto_remove_slash auto_name_dirs 
+# setopt extended_history hist_ignore_dups hist_ignore_space prompt_subst
+# setopt extended_glob list_types no_beep always_last_prompt
+# setopt cdable_vars sh_word_split auto_param_keys pushd_ignore_dups
+# # 便利だが副作用の強いものはコメントアウト
+# #setopt auto_menu  correct rm_star_silent sun_keyboard_hack
+# #setopt share_history inc_append_history
+# 
+# # Alias and functions
+# alias copy='cp -ip' del='rm -i' move='mv -i'
+# alias fullreset='echo "\ec\ec"'
+# h () 		{history $* | less}
+# alias ja='LANG=ja_JP.eucJP XMODIFIERS=@im=kinput2'
 alias ls='ls -F' la='ls -a' ll='ls -la'
-mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
-mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
-alias pu=pushd po=popd dirs='dirs -v'
+# mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
+# mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
+# alias pu=pushd po=popd dirs='dirs -v'
+# 
+# # Suffix aliases(起動コマンドは環境によって変更する)
+# alias -s pdf=acroread dvi=xdvi 
+# alias -s {odt,ods,odp,doc,xls,ppt}=soffice
+# alias -s {tgz,lzh,zip,arc}=file-roller
+# 
+# # binding keys
+# bindkey -e
+# #bindkey '^p'	history-beginning-search-backward
+# #bindkey '^n'	history-beginning-search-forward
+# 
+# # 输窗システムを网脱: 输窗の刁瓢が尸かりやすくなる2つの肋年のみ淡揭
+# zstyle ':completion:*' format '%BCompleting %d%b'
+# zstyle ':completion:*' group-name ''
+# autoload -U compinit && compinit
 
-# Suffix aliases(起動コマンドは環境によって変更する)
-alias -s pdf=acroread dvi=xdvi 
-alias -s {odt,ods,odp,doc,xls,ppt}=soffice
-alias -s {tgz,lzh,zip,arc}=file-roller
+##### historyの設定 #####
+# 参考）https://qiita.com/syui/items/c1a1567b2b76051f50c4
+# 履歴ファイルの保存先
+export HISTFILE=${HOME}/.zsh_history
 
-# binding keys
-bindkey -e
-#bindkey '^p'	history-beginning-search-backward
-#bindkey '^n'	history-beginning-search-forward
+# メモリに保存される履歴の件数
+export HISTSIZE=1000
 
-# 输窗システムを网脱: 输窗の刁瓢が尸かりやすくなる2つの肋年のみ淡揭
-zstyle ':completion:*' format '%BCompleting %d%b'
-zstyle ':completion:*' group-name ''
-autoload -U compinit && compinit
+# 履歴ファイルに保存される履歴の件数
+export SAVEHIST=100000
 
-# go bin設定（ghq のインストールで使用）
+# 重複を記録しない
+setopt hist_ignore_dups
+
+# 開始と終了を記録
+setopt EXTENDED_HISTORY
+
+##### go bin設定（ghq のインストールで使用） #####
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
-# peco コマンド履歴設定
+##### peco コマンド履歴設定 #####
 function peco-select-history() {
     # historyを番号なし、逆順、最初から表示。
     # 順番を保持して重複を削除。
@@ -65,7 +83,7 @@ function peco-select-history() {
 zle -N peco-select-history
 bindkey '^R' peco-select-history
 
-# cdr 設定
+##### cdr 設定 #####
 if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
     autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
     add-zsh-hook chpwd chpwd_recent_dirs
