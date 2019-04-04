@@ -1,4 +1,4 @@
-#####################################################################
+
 #
 #  Sample .zshrc file
 #  initial setup file for only interactive zsh
@@ -47,7 +47,7 @@ alias ls='ls -F' la='ls -a' ll='ls -la'
 # # 输窗システムを网脱: 输窗の刁瓢が尸かりやすくなる2つの肋年のみ淡揭
 # zstyle ':completion:*' format '%BCompleting %d%b'
 # zstyle ':completion:*' group-name ''
-# autoload -U compinit && compinit
+autoload -U compinit && compinit
 
 ##### historyの設定 #####
 # 参考）https://qiita.com/syui/items/c1a1567b2b76051f50c4
@@ -105,9 +105,9 @@ zle -N peco-cdr
 bindkey '^[r' peco-cdr
 
 # pyenvのロード設定
-export PATH="/home/mix/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# export PATH="/home/mix/.pyenv/bin:$PATH"
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
 
 # pipenvの環境をフォルダ内に配置するようにした
 export PIPENV_VENV_IN_PROJECT=true
@@ -116,5 +116,21 @@ export PIPENV_VENV_IN_PROJECT=true
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
+# nodenv
+export PATH="$HOME/.nodenv/bin:$PATH"
+eval "$(nodenv init -)"
+
 # userスクリプト用PATH追加
 export PATH="$HOME/bin:$PATH"
+
+# psqlのパス設定
+export PATH=/usr/local/Cellar/postgresql@9.4/9.4.21/bin/:$PATH
+
+# iconvのエイリアス
+alias iconv='/usr/local/opt/libiconv/bin/iconv'
+
+# qt5.5の設定
+export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+
+# Tさんとなんやかんややっていた時に追加したpath
+export PATH="/usr/local/opt/libxml2/bin:$PATH"
