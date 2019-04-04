@@ -1,4 +1,4 @@
-
+#####################################################################
 #
 #  Sample .zshrc file
 #  initial setup file for only interactive zsh
