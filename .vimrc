@@ -49,11 +49,27 @@ call plug#end()
 " noremap <c-l> <c-w><c-l>
 
 
-set foldmethod=indent           " 折りたたみ設定
+set foldmethod=indent               " 折りたたみ設定
 
-set wildmenu                    " Tabによる自動補完を有効化
-set wildmode=list:longest,full  " 最長マッチまで補完してから自動補完メニューを開く
+set wildmenu                        " Tabによる自動補完を有効化
+set wildmode=list:longest,full      " 最長マッチまで補完してから自動補完メニューを開く
 
-set number                      " 行番号表示
-set hlsearch                    " 検索ハイライト
-set clipboard=unnamed,unnamedplus           " システムのクリップボード(*)
+set number                          " 行番号表示
+set hlsearch                        " 検索ハイライト
+set clipboard=unnamed,unnamedplus   " システムのクリップボード(*)
+
+" 参考)https://blog.craftz.dog/my-dev-workflow-using-tmux-vim-48f73cc4f39e
+
+" 画面分割
+nmap ss :split<Return><C-w>w
+nmap sv :vsplit<Return><C-w>w
+
+" 画面移動
+map sh <C-w>h
+map sk <C-w>k
+map sj <C-w>j
+map sl <C-w>l
+
+" タブ切り替え
+nmap <S-Tab> :tabprev<Return>
+nmap <Tab> :tabnext<Return>
