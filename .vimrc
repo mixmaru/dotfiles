@@ -14,6 +14,8 @@ set backspace=2            " Fix backspace behavior on most terminals.
 
 colorscheme murphy         " Change a colorscheme.
 
+set belloff=all            " beep音を消す
+
 
 " すべてのファイルについて永続アンドゥを有効にする
 set undofile
@@ -73,3 +75,6 @@ map sl <C-w>l
 " タブ切り替え
 nmap <S-Tab> :tabprev<Return>
 nmap <Tab> :tabnext<Return>
+
+" 関数定義へジャンプ
+noremap <leader>] :YcmCompleter GoTo<cr>
