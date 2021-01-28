@@ -41,14 +41,15 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'mileszs/ack.vim'
 Plug 'ycm-core/youCompleteMe', { 'do': './install.py'}
+Plug 'tpope/vim-unimpaired'
 call plug#end()
 
 
 " コントロールキーとhjklで分割されたウィンドウ間をすばやく移動する
-" noremap <c-h> <c-w><c-h>
-" noremap <c-j> <c-w><c-j>
-" noremap <c-k> <c-w><c-k>
-" noremap <c-l> <c-w><c-l>
+noremap <c-h> <c-w><c-h>
+noremap <c-j> <c-w><c-j>
+noremap <c-k> <c-w><c-k>
+noremap <c-l> <c-w><c-l>
 
 
 set foldmethod=indent               " 折りたたみ設定
