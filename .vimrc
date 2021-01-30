@@ -34,6 +34,8 @@ endif
 
 let g:plug_timeout = 300 " YouCompleteMeはコンパイルに時間がかかるためタイムアウトを伸ばす
 
+let test#strategy = "dispatch" " vim-testにてテスト実行後quickfixを使えるようにする
+
 " vim-plugでプラグインを管理する
 call plug#begin()
 Plug 'tpope/vim-vinegar'
@@ -42,6 +44,10 @@ Plug 'easymotion/vim-easymotion'
 Plug 'mileszs/ack.vim'
 Plug 'ycm-core/youCompleteMe', { 'do': './install.py'}
 Plug 'tpope/vim-unimpaired'
+Plug 'preservim/nerdtree'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-dispatch'
+Plug 'janko-m/vim-test'
 call plug#end()
 
 
