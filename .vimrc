@@ -85,3 +85,4 @@ nmap <Tab> :tabnext<Return>
 
 " 関数定義へジャンプ
 noremap <leader>] :YcmCompleter GoTo<cr>
+set tags=tags; " 親ディレクトリにあるtagsファイルを再帰的に探す
