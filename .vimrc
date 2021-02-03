@@ -38,19 +38,21 @@ let test#strategy = "dispatch" " vim-testにてテスト実行後quickfixを使�
 
 " vim-plugでプラグインを管理する
 call plug#begin()
-Plug 'tpope/vim-vinegar'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'easymotion/vim-easymotion'
-Plug 'mileszs/ack.vim'
-Plug 'ycm-core/youCompleteMe', { 'do': './install.py'}
-Plug 'tpope/vim-unimpaired'
-Plug 'preservim/nerdtree'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-dispatch'
-Plug 'janko-m/vim-test'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-vinegar' " tree表示関連コマンド
+Plug 'ctrlpvim/ctrlp.vim' " ctrl-P 便利コマンド
+Plug 'easymotion/vim-easymotion' " カーソル位置移動コマンド
+Plug 'mileszs/ack.vim' " Ackコマンド
+Plug 'tpope/vim-unimpaired' " リスト移動キーバインド
+Plug 'preservim/nerdtree' " dir tree表示
+Plug 'tpope/vim-fugitive' " git操作
+Plug 'tpope/vim-dispatch' " コマンドバックグラウンド実行関連
+Plug 'janko-m/vim-test' " test実行コマンド
+Plug 'prabirshrestha/vim-lsp' " Lsp本体
+Plug 'mattn/vim-lsp-settings' " Lsp設定補助
+Plug 'prabirshrestha/asyncomplete.vim' " 補完
+Plug 'prabirshrestha/asyncomplete-lsp.vim' " 補完
+Plug 'vim-airline/vim-airline' " データ表示
+Plug 'yegappan/mru' " 開いたファイル履歴
 call plug#end()
 
 
@@ -83,9 +85,5 @@ map sj <C-w>j
 map sl <C-w>l
 
 " タブ切り替え
-nmap <S-Tab> :tabprev<Return>
-nmap <Tab> :tabnext<Return>
-
-" 関数定義へジャンプ
-noremap <leader>] :YcmCompleter GoTo<cr>
-set tags=tags; " 親ディレクトリにあるtagsファイルを再帰的に探す
+" nmap <S-Tab> :tabprev<Return>
+" nmap <Tab> :tabnext<Return>
