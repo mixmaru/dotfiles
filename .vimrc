@@ -53,6 +53,7 @@ Plug 'prabirshrestha/asyncomplete.vim' " 補完
 Plug 'prabirshrestha/asyncomplete-lsp.vim' " 補完
 Plug 'vim-airline/vim-airline' " データ表示
 Plug 'yegappan/mru' " 開いたファイル履歴
+Plug 'sebdah/vim-delve' " go用デバッガ
 call plug#end()
 
 
@@ -87,3 +88,13 @@ map sl <C-w>l
 " タブ切り替え
 " nmap <S-Tab> :tabprev<Return>
 " nmap <Tab> :tabnext<Return>
+
+" テストをdelveで実行するようにする設定（https://github.com/vim-test/vim-test#go
+nmap <silent> t<C-n> :TestNearest<CR>
+function! DebugNearest()
+    let g:test#go#runner = 'delve'
+    TestNearest
+    unlet g:test#go#runner
+endfunction
+nmap <silent> t<C-d> :call DebugNearest()<CR>
+
