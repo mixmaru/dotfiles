@@ -43,7 +43,6 @@ Plug 'ctrlpvim/ctrlp.vim' " ctrl-P 便利コマンド
 Plug 'easymotion/vim-easymotion' " カーソル位置移動コマンド
 Plug 'mileszs/ack.vim' " Ackコマンド
 Plug 'tpope/vim-unimpaired' " リスト移動キーバインド
-Plug 'preservim/nerdtree' " dir tree表示
 Plug 'tpope/vim-fugitive' " git操作
 Plug 'tpope/vim-dispatch' " コマンドバックグラウンド実行関連
 Plug 'janko-m/vim-test' " test実行コマンド
@@ -76,14 +75,14 @@ set clipboard=unnamed,unnamedplus   " システムのクリップボード(*)
 " 参考)https://blog.craftz.dog/my-dev-workflow-using-tmux-vim-48f73cc4f39e
 
 " 画面分割
-nmap ss :split<Return><C-w>w
-nmap sv :vsplit<Return><C-w>w
+" nmap ss :split<Return><C-w>w
+" nmap sv :vsplit<Return><C-w>w
 
 " 画面移動
-map sh <C-w>h
-map sk <C-w>k
-map sj <C-w>j
-map sl <C-w>l
+" map sh <C-w>h
+" map sk <C-w>k
+" map sj <C-w>j
+" map sl <C-w>l
 
 " タブ切り替え
 " nmap <S-Tab> :tabprev<Return>
