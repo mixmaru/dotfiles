@@ -41,21 +41,26 @@ call plug#begin()
 Plug 'tpope/vim-vinegar' " tree表示関連コマンド
 Plug 'ctrlpvim/ctrlp.vim' " ctrl-P 便利コマンド
 Plug 'easymotion/vim-easymotion' " カーソル位置移動コマンド
-Plug 'valloric/youcompleteme' " 補完
+" Plug 'valloric/youcompleteme' " 補完
 Plug 'mileszs/ack.vim' " Ackコマンド
 Plug 'tpope/vim-unimpaired' " リスト移動キーバインド
 Plug 'tpope/vim-fugitive' " git操作
 Plug 'tpope/vim-dispatch' " コマンドバックグラウンド実行関連
 Plug 'janko-m/vim-test' " test実行コマンド
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " go用プラグイン
-Plug 'vim-ruby/vim-ruby'
-" Plug 'prabirshrestha/vim-lsp' " Lsp本体
-" Plug 'mattn/vim-lsp-settings' " Lsp設定補助
-" Plug 'prabirshrestha/asyncomplete.vim' " 補完
-" Plug 'prabirshrestha/asyncomplete-lsp.vim' " 補完
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " go用プラグイン
+" Plug 'vim-ruby/vim-ruby'
 Plug 'vim-airline/vim-airline' " データ表示
 Plug 'yegappan/mru' " 開いたファイル履歴
 Plug 'sebdah/vim-delve' " go用デバッガ
+
+" lsp関連 参考: https://mattn.kaoriya.net/software/vim/20191231213507.htm
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'mattn/vim-lsp-icons'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 call plug#end()
 
 
@@ -64,6 +69,7 @@ noremap <c-h> <c-w><c-h>
 noremap <c-j> <c-w><c-j>
 noremap <c-k> <c-w><c-k>
 noremap <c-l> <c-w><c-l>
+" コントロールキーとhjklで分割されたウィンドウ間をすばやく移動する ここまで
 
 
 set foldmethod=indent               " 折りたたみ設定
@@ -99,4 +105,31 @@ function! DebugNearest()
     unlet g:test#go#runner
 endfunction
 nmap <silent> t<C-d> :call DebugNearest()<CR>
+" テストをdelveで実行するようにする設定（https://github.com/vim-test/vim-test#go ここまで
 
+" lspの設定 参考(https://mattn.kaoriya.net/software/vim/20191231213507.htm)
+if empty(globpath(&rtp, 'autoload/lsp.vim'))
+  finish
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+  setlocal omnifunc=lsp#complete
+  setlocal signcolumn=yes
+  nmap <buffer> gd <plug>(lsp-definition)
+  nmap <buffer> <f2> <plug>(lsp-rename)
+  inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+endfunction
+
+augroup lsp_install
+  au!
+  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
+
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+let g:asyncomplete_auto_popup = 0
+let g:asyncomplete_auto_completeopt = 0
+let g:asyncomplete_popup_delay = 200
+let g:lsp_text_edit_enabled = 1
+" lspの設定 参考(https://mattn.kaoriya.net/software/vim/20191231213507.htm)ここまで
