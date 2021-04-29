@@ -52,6 +52,7 @@ Plug 'janko-m/vim-test' " test実行コマンド
 Plug 'vim-airline/vim-airline' " データ表示
 Plug 'yegappan/mru' " 開いたファイル履歴
 Plug 'sebdah/vim-delve' " go用デバッガ
+Plug 'mattn/vim-maketable' " テーブル記述サポート
 
 " lsp関連 参考: https://mattn.kaoriya.net/software/vim/20191231213507.htm
 Plug 'prabirshrestha/asyncomplete.vim'
