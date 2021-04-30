@@ -98,6 +98,9 @@ set clipboard=unnamed,unnamedplus   " システムのクリップボード(*)
 " nmap <S-Tab> :tabprev<Return>
 " nmap <Tab> :tabnext<Return>
 
+" 自動改行off
+set tw=0
+
 " テストをdelveで実行するようにする設定（https://github.com/vim-test/vim-test#go
 nmap <silent> t<C-n> :TestNearest<CR>
 function! DebugNearest()
