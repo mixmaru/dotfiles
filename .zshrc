@@ -199,6 +199,20 @@ function git-fzf() {
 zle -N git-fzf
 bindkey "^[b" git-fzf
 
+# cdr
+function cdr-fzf() {
+  local target_dir=$(cdr -l | fzf | awk '{print $2}')
+
+  if [ -n "$target_dir" ]; then
+    BUFFER="cd ${target_dir}"
+    zle accept-line
+  fi
+
+  zle reset-prompt
+}
+zle -N cdr-fzf
+bindkey "^[c" cdr-fzf
+
 
 ### エイリアス
 alias ls='ls -F' la='ls -a' ll='ls -la'
