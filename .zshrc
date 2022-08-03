@@ -1,120 +1,204 @@
-#####################################################################
+# Start configuration added by Zim install {{{
 #
-#  Sample .zshrc file
-#  initial setup file for only interactive zsh
-#  This file is read after .zshenv file is read.
+# User configuration sourced by interactive shells
 #
-#####################################################################
 
-# zshのデフォルトrcが理解できていないので一旦コメントアウトして様子をみる
-# ###
-# # Set Shell variable
-# # WORDCHARS=$WORDCHARS:s,/,,
-# HISTSIZE=2000 HISTFILE=~/.zhistory SAVEHIST=180
-PROMPT='%m{%n}%% '
-RPROMPT='[%~]'
-# 
-# # Set shell options
-# # 有効にしてあるのは副作用の少ないもの
-# setopt auto_cd auto_remove_slash auto_name_dirs 
-# setopt extended_history hist_ignore_dups hist_ignore_space prompt_subst
-# setopt extended_glob list_types no_beep always_last_prompt
-# setopt cdable_vars sh_word_split auto_param_keys pushd_ignore_dups
-# # 便利だが副作用の強いものはコメントアウト
-# #setopt auto_menu  correct rm_star_silent sun_keyboard_hack
-# #setopt share_history inc_append_history
-# 
-# # Alias and functions
-# alias copy='cp -ip' del='rm -i' move='mv -i'
-# alias fullreset='echo "\ec\ec"'
-# h () 		{history $* | less}
-# alias ja='LANG=ja_JP.eucJP XMODIFIERS=@im=kinput2'
-alias ls='ls -F' la='ls -a' ll='ls -la'
-# mdcd ()		{mkdir -p "$@" && cd "$*[-1]"}
-# mdpu ()		{mkdir -p "$@" && pushd "$*[-1]"}
-# alias pu=pushd po=popd dirs='dirs -v'
-# 
-# # Suffix aliases(起動コマンドは環境によって変更する)
-# alias -s pdf=acroread dvi=xdvi 
-# alias -s {odt,ods,odp,doc,xls,ppt}=soffice
-# alias -s {tgz,lzh,zip,arc}=file-roller
-# 
-# # binding keys
-# bindkey -e
-# #bindkey '^p'	history-beginning-search-backward
-# #bindkey '^n'	history-beginning-search-forward
-# 
-# # 输窗システムを网脱: 输窗の刁瓢が尸かりやすくなる2つの肋年のみ淡揭
-# zstyle ':completion:*' format '%BCompleting %d%b'
-# zstyle ':completion:*' group-name ''
-# autoload -U compinit && compinit
+# -----------------
+# Zsh configuration
+# -----------------
 
-##### historyの設定 #####
-# 参考）https://qiita.com/syui/items/c1a1567b2b76051f50c4
-# 履歴ファイルの保存先
-export HISTFILE=${HOME}/.zsh_history
+#
+# History
+#
 
+# Remove older command from the history if a duplicate is to be added.
+setopt HIST_IGNORE_ALL_DUPS
+
+#
+# Input/output
+#
+
+# Set editor default keymap to emacs (`-e`) or vi (`-v`)
+bindkey -e
+
+# Prompt for spelling correction of commands.
+#setopt CORRECT
+
+# Customize spelling correction prompt.
+#SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+
+# Remove path separator from WORDCHARS.
+WORDCHARS=${WORDCHARS//[\/]}
+
+# -----------------
+# Zim configuration
+# -----------------
+
+# Use degit instead of git as the default tool to install and update modules.
+#zstyle ':zim:zmodule' use 'degit'
+
+# --------------------
+# Module configuration
+# --------------------
+
+#
+# git
+#
+
+# Set a custom prefix for the generated aliases. The default prefix is 'G'.
+#zstyle ':zim:git' aliases-prefix 'g'
+
+#
+# input
+#
+
+# Append `../` to your input for each `.` you type after an initial `..`
+#zstyle ':zim:input' double-dot-expand yes
+
+#
+# termtitle
+#
+
+# Set a custom terminal title format using prompt expansion escape sequences.
+# See http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Simple-Prompt-Escapes
+# If none is provided, the default '%n@%m: %~' is used.
+#zstyle ':zim:termtitle' format '%1~'
+
+#
+# zsh-autosuggestions
+#
+
+# Disable automatic widget re-binding on each precmd. This can be set when
+# zsh-users/zsh-autosuggestions is the last module in your ~/.zimrc.
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+# Customize the style that the suggestions are shown with.
+# See https://github.com/zsh-users/zsh-autosuggestions/blob/master/README.md#suggestion-highlight-style
+#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+
+#
+# zsh-syntax-highlighting
+#
+
+# Set what highlighters will be used.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+# Customize the main highlighter styles.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md#how-to-tweak-it
+#typeset -A ZSH_HIGHLIGHT_STYLES
+#ZSH_HIGHLIGHT_STYLES[comment]='fg=242'
+
+# ------------------
+# Initialize modules
+# ------------------
+
+ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+# Download zimfw plugin manager if missing.
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  if (( ${+commands[curl]} )); then
+    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  else
+    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  fi
+fi
+# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init -q
+fi
+# Initialize modules.
+source ${ZIM_HOME}/init.zsh
+
+# ------------------------------
+# Post-init module configuration
+# ------------------------------
+
+#
+# zsh-history-substring-search
+#
+
+zmodload -F zsh/terminfo +p:terminfo
+# Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
+for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
+for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
+for key ('k') bindkey -M vicmd ${key} history-substring-search-up
+for key ('j') bindkey -M vicmd ${key} history-substring-search-down
+unset key
+# }}} End configuration added by Zim install
+
+# Created by newuser for 5.9
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+
+### 個人設定
+# 履歴
 # メモリに保存される履歴の件数
 export HISTSIZE=1000
-
 # 履歴ファイルに保存される履歴の件数
 export SAVEHIST=100000
-
 # 重複を記録しない
 setopt hist_ignore_dups
-
 # 開始と終了を記録
 setopt EXTENDED_HISTORY
 
-##### go bin設定（ghq のインストールで使用） #####
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
+setopt no_beep
 
-##### peco コマンド履歴設定 #####
-function peco-select-history() {
-    # historyを番号なし、逆順、最初から表示。
-    # 順番を保持して重複を削除。
-    # カーソルの左側の文字列をクエリにしてpecoを起動
-    # \nを改行に変換
-    BUFFER="$(history -nr 1 | awk '!a[$0]++' | peco --query "$LBUFFER" | sed 's/\\n/\n/')"
-    CURSOR=$#BUFFER             # カーソルを文末に移動
-    zle -R -c                   # refresh
+## cdrを有効にして設定する
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':completion:*:*:cdr:*:*' menu selection
+zstyle ':chpwd:*' recent-dirs-max 100
+zstyle ':chpwd:*' recent-dirs-default true
+zstyle ':chpwd:*' recent-dirs-insert true
+zstyle ':chpwd:*' recent-dirs-file "$HOME"/.chpwd-recent-dirs
+## AUTO_CDの対象に ~ と上位ディレクトリを加える
+cdpath=(~ ..)
+
+# repositoryルートに戻る
+function u() {
+  cd ./"$(git rev-parse --show-cdup)"
+  if [ $# = 1 ]; then
+    cd "$1"
+  fi
 }
-zle -N peco-select-history
-bindkey '^R' peco-select-history
 
-##### cdr 設定 #####
-if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
-    autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-    add-zsh-hook chpwd chpwd_recent_dirs
-    zstyle ':completion:*' recent-dirs-insert both
-    zstyle ':chpwd:*' recent-dirs-default true
-    zstyle ':chpwd:*' recent-dirs-max 1000
-    zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
-fi
+# ghq
+function ghq-fzf() {
+  local target_dir=$(ghq list -p | fzf --query="$LBUFFER")
 
-# cdr peco設定
-function peco-cdr () {
-    local selected_dir="$(cdr -l | sed 's/^[0-9]\+ \+//' | peco --prompt="cdr >" --query "$LBUFFER")"
-    if [ -n "$selected_dir" ]; then
-        BUFFER="cd ${selected_dir}"
-        zle accept-line
-    fi
+  if [ -n "$target_dir" ]; then
+    BUFFER="cd ${target_dir}"
+    zle accept-line
+  fi
+
+  zle reset-prompt
 }
-zle -N peco-cdr
-bindkey '^[r' peco-cdr
+zle -N ghq-fzf
+bindkey "^[g" ghq-fzf
 
-# pyenvのロード設定
-export PATH="/home/mix/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# git branch
+function git-fzf() {
+  local target_branch=$(git branch -a | fzf | awk '$1=="*"{print $2}$1!="*"{print $1}')
 
-# pipenvの環境をフォルダ内に配置するようにした
-export PIPENV_VENV_IN_PROJECT=true
+  if [ -n "$target_branch" ]; then
+    BUFFER="git checkout ${target_branch}"
+    zle accept-line
+  fi
 
-# rbenvの設定
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+  zle reset-prompt
+}
+zle -N git-fzf
+bindkey "^[b" git-fzf
 
-# userスクリプト用PATH追加
-export PATH="$HOME/bin:$PATH"
+
+### エイリアス
+alias ls='ls -F' la='ls -a' ll='ls -la'
