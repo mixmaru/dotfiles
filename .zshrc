@@ -216,3 +216,7 @@ bindkey "^[c" cdr-fzf
 
 ### エイリアス
 alias ls='ls -F' la='ls -a' ll='ls -la'
+
+# goインストール
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
