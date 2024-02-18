@@ -220,3 +220,6 @@ alias ls='ls -F' la='ls -a' ll='ls -la'
 # goインストール
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/go/bin
+
+# zoxide設定
+eval "$(zoxide init zsh)"
